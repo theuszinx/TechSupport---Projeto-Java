@@ -4,7 +4,8 @@ import techsupport.enums.Prioridade;
 import techsupport.enums.StatusOS;
 
 public class OrdemServico {
-    private int id = 0;
+    private static int contadorId = 1;
+    private int id;
 
     private String descricao;
     private Prioridade prioridade;
@@ -16,7 +17,7 @@ public class OrdemServico {
 
     public OrdemServico(String descricao, Prioridade prioridade, int tempoEstimado, int complexidade) {
         // Pré-definidos
-        this.id++; 
+        this.id = contadorId++; 
         this.status = StatusOS.PENDENTE;
         this.tempoEspera = 0;
 

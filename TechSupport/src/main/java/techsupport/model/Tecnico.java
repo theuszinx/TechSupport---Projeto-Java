@@ -2,18 +2,16 @@ package techsupport.model;
 import techsupport.enums.NivelTecnico;
 
 
-public class Tecnico{
-    private int id = 0;
+public class Tecnico {
+    private static int contadorId = 1;
+    private int id;
     private String nome;
     private NivelTecnico nivel;
     private boolean disponivel;
 
-    public Tecnico(String nome, NivelTecnico nivel){
-        // Pré-definidos
-        this.id++;
+    public Tecnico(String nome, NivelTecnico nivel) {
+        this.id = contadorId++;
         this.disponivel = true;
-
-
         this.nome = nome;
         this.nivel = nivel;
 
