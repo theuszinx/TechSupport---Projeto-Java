@@ -5,6 +5,9 @@ import techsupport.enums.Prioridade;
 
 import techsupport.model.OrdemServico;
 import techsupport.model.Tecnico;
+import techsupport.ui.MenuPrincipal;
+
+import java.awt.*;
 
 class Main{
     public static void main(String[] args){
@@ -20,5 +23,9 @@ class Main{
         System.out.println(tecnico.estaDisponivel());
         tecnico.liberar();
         System.out.println(tecnico.estaDisponivel());
+
+        // Opções do menu principal (Apenas print)
+        MenuPrincipal menu = new MenuPrincipal();
+        menu.opcoes();
     }
 }
