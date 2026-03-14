@@ -7,7 +7,7 @@ public class MenuPrincipal {
                 "3 - Listar dados\n" +
                 "4 - Executar escalonamento\n" +
                 "5 - Gerar dados de teste\n" +
-                "0 - Sair"
+                "0  - Sair"
         );
     }
 }
