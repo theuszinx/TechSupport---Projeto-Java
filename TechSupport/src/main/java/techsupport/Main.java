@@ -1,43 +1,36 @@
 package techsupport;
 
-import techsupport.enums.NivelTecnico;
-import techsupport.enums.Prioridade;
-import techsupport.enums.Complexidade;
+import techsupport.strategy.*;
+import techsupport.model.*;
 
-import techsupport.model.OrdemServico;
-import techsupport.model.Tecnico;
-import techsupport.ui.MenuPrincipal;
 import techsupport.util.GeradorDadosTeste;
 
-import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 class Main{
     public static void main(String[] args){
-        /*
-        OrdemServico ordem = new OrdemServico("Commitar para o github", Prioridade.BAIXA, Complexidade.BAIXA, 2);
-        Tecnico tecnico = new Tecnico("Bananildo", NivelTecnico.JUNIOR);
+        GerenciadorEstrategias fila = new GerenciadorEstrategias(
+                Estrategias.abordagemMista(
+                        List.of(Estrategias.PRIORIDADE, Estrategias.MENOR_TEMPO)
+                )
+                // Prioridade > Menor tempo
+        );
+        try{
+            GeradorDadosTeste.gerarOrdens(fila, 20);
 
-        System.out.println(ordem.toString());
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("ERRO: A quantidade ultrapassou o número de exemplos. Qtd Máxima: " + GeradorDadosTeste.getORDENS().size());
 
+        }
 
-        System.out.println(tecnico.toString());
-        tecnico.ocupar();
-        System.out.println(tecnico.estaDisponivel());
-        tecnico.liberar();
-        System.out.println(tecnico.estaDisponivel());
+        while(fila.possuiOrdens()){
+            System.out.println(fila.proximaOrdem());
+        }
 
-        // Opções do menu principal (Apenas print)
-        MenuPrincipal menu = new MenuPrincipal();
-        menu.opcoes();
-         */
-
-        GeradorDadosTeste geradorDados = new GeradorDadosTeste();
-        List<Tecnico> listaTecnicos = geradorDados.gerarTecnicos(5);
-        List<OrdemServico> listaOrdens = geradorDados.gerarOrdemsServico(10);
-
+        List<Tecnico> listaTecnicos = new ArrayList<>();
+        GeradorDadosTeste.gerarTecnicos(listaTecnicos, 10);
         listaTecnicos.forEach(System.out::println);
-        System.out.println();
-        listaOrdens.forEach(System.out::println);
+
     }
 }
