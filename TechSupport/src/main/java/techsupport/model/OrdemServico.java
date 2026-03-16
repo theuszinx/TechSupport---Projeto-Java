@@ -62,9 +62,20 @@ public class OrdemServico {
         this.tempoEspera = tempoEspera;
     }
 
+    public String formatarTempoEstimado(int tempo){
+        int horas = (int) tempo / 60;
+        int minutos = (int) tempo % 60;
+
+        // Garantir formatação 00:00
+        return ((horas < 10) ? "0" : "") + horas
+                + ":" +
+                ((minutos < 10) ? "0" : "") + minutos;
+    };
 
     @Override
     public String toString() {
-        return "OS #" + id + " [Prioridade: " + prioridade + " | Complexidade: " + complexidade + "] - " + descricao + " (Status: " + status + ")";
+        return "OS #" + id + " [Prioridade: " + prioridade + "] | [Complexidade: " + complexidade + "] | " +
+                "(Tempo estimado ~ " + formatarTempoEstimado(tempoEstimado) + ")" +
+                "\n" + descricao + " (Status: " + status + ")" + "\n";
     }
 }
