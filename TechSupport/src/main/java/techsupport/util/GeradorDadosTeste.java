@@ -1,19 +1,14 @@
 package techsupport.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 import techsupport.enums.*;
 import techsupport.model.*;
+import techsupport.strategy.GerenciadorEstrategias;
 
-import java.util.List;
-/*
-Deve gerar automaticamente:
-5 técnicos
-10 ordens de serviço
- */
-public class GeradorDadosTeste {
+public final class GeradorDadosTeste {
+    private static final Random RANDOM = new Random();
+
     // Lista de nomes fictícios e ordens fictícias (Gerado por IA)
     private static final List<String> NOMES = List.of(
             "Arthur", "Bernardo", "Carlos", "Daniel", "Eduardo",
@@ -31,8 +26,6 @@ public class GeradorDadosTeste {
             "Rocha", "Dias", "Mendes", "Nunes", "Machado",
             "Moreira", "Marques", "Freitas", "Cardoso", "Ramos"
     );
-
-    // Não é muito profissional porque cada "new" cria mais um objeto na memória Heap, mas é mais simples
     private static final List<OrdemServico> ORDENS = Arrays.asList(
             // --- Complexidade ALTA ---
             new OrdemServico("Recuperação de banco de dados SQL corrompido", Prioridade.ALTA, Complexidade.ALTA, 180),
@@ -61,35 +54,31 @@ public class GeradorDadosTeste {
             new OrdemServico("Verificação de conexão de cabos de monitor", Prioridade.BAIXA, Complexidade.BAIXA, 5)
     );
 
-    private static final Random RANDOM = new Random();
+    public static List<OrdemServico> getORDENS() {
+        return ORDENS;
+    }
 
-    public List<Tecnico> gerarTecnicos(int quantidade){
-        List<Tecnico> listaTecnicos = new ArrayList<>();
+    public static void gerarOrdens(GerenciadorEstrategias gerenciador, int quantidade){
+        // Prevenir ordens repetidas
+        if(quantidade > ORDENS.size()){
+            throw new ArrayIndexOutOfBoundsException();
+        }
+
+        List<OrdemServico> listaMisturada = new ArrayList<>(ORDENS);
+        Collections.shuffle(listaMisturada);
 
         for(int i = 0; i < quantidade; i++){
-            String nome = gerarNomeTecnico();
+            gerenciador.addOrdem(listaMisturada.get(i));
+        }
+    }
+
+    public static void gerarTecnicos(List<Tecnico> lista, int quantidade){
+        for(int i = 0; i < quantidade; i++){
+            String nome = NOMES.get(RANDOM.nextInt(NOMES.size()));
+            String sobrenome = SOBRENOMES.get(RANDOM.nextInt(SOBRENOMES.size()));
+
             NivelTecnico nivel = NivelTecnico.nivelRandom();
-
-            listaTecnicos.add(new Tecnico(nome, nivel));
+            lista.add(new Tecnico(nome + " " + sobrenome, nivel));
         }
-
-        return listaTecnicos;
-
-    }
-
-    public List<OrdemServico> gerarOrdemsServico(int quantidade){
-        List<OrdemServico> listaOrdens = new ArrayList<>();
-        for(int i = 0; i < quantidade; i++){
-            listaOrdens.add(ORDENS.get(RANDOM.nextInt(ORDENS.size())));
-        }
-
-        return listaOrdens;
-    }
-
-    private String gerarNomeTecnico(){
-        String nome = NOMES.get(RANDOM.nextInt(NOMES.size()));
-        String sobrenome = SOBRENOMES.get(RANDOM.nextInt(SOBRENOMES.size()));
-
-        return nome + " " + sobrenome;
     }
 }

@@ -3,14 +3,15 @@ import techsupport.enums.NivelTecnico;
 
 
 public class Tecnico{
-    private int id = 0;
+    private static int nextId = 0;
+    private int id;
     private String nome;
     private NivelTecnico nivel;
     private boolean disponivel;
 
     public Tecnico(String nome, NivelTecnico nivel){
         // Pré-definidos
-        this.id++;
+        this.id = ++nextId;
         this.disponivel = true;
 
 
@@ -63,7 +64,7 @@ public class Tecnico{
             disponibilidadeAtual = "OCUPADO";
         }
 
-        return "Técnico #"  + id + " [" + nivel + "] " + " - " + nome +  " (" + disponibilidadeAtual + ")";
+        return "Técnico #"  + id + " [" + nivel + "] - " + nome +  " (" + disponibilidadeAtual + ")";
     }
     
 
