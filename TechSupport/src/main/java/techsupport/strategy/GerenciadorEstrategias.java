@@ -2,31 +2,29 @@ package techsupport.strategy;
 
 import techsupport.model.OrdemServico;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
-public class GerenciadorEstrategia {
+public class GerenciadorEstrategias {
     private final Queue<OrdemServico> fila;
 
     // Construtor vazio = Será uma Queue normal (FIFO)
-    public GerenciadorEstrategia() {
+    public GerenciadorEstrategias() {
         this.fila = new LinkedList<>();
     }
 
     // Construtor com comparator = Será uma PriorityQueue
-    public GerenciadorEstrategia(Comparator<OrdemServico> estrategia) {
+    public GerenciadorEstrategias(Comparator<OrdemServico> estrategia) {
         this.fila = new PriorityQueue<>(estrategia);
     }
 
-    public void adicionarOrdem(OrdemServico ordem) {
+    public void addOrdem(OrdemServico ordem) {
+        // Prevenir ordem vazia
         if (ordem != null) {
             this.fila.offer(ordem);
         }
     }
 
-    public OrdemServico proximoAtendimento() {
+    public OrdemServico proximaOrdem() {
         return this.fila.poll();
     }
 
