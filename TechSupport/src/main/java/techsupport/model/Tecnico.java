@@ -3,21 +3,17 @@ import techsupport.enums.NivelTecnico;
 
 
 public class Tecnico{
-    private int id = 0;
+    private static int contadorId = 0; // Contador global para IDs únicos
+    private final int id;
     private String nome;
     private NivelTecnico nivel;
     private boolean disponivel;
 
     public Tecnico(String nome, NivelTecnico nivel){
-        // Pré-definidos
-        this.id++;
+        this.id = ++contadorId; // Atribui e incrementa o ID global
         this.disponivel = true;
-
-
         this.nome = nome;
         this.nivel = nivel;
-
-
     }
 
     public boolean estaDisponivel(){
@@ -63,7 +59,7 @@ public class Tecnico{
             disponibilidadeAtual = "OCUPADO";
         }
 
-        return "Técnico #"  + id + " [" + nivel + "] " + " - " + nome +  " (" + disponibilidadeAtual + ")";
+        return "Técnico #"  + id + " [" + nivel + "] - " + nome +  " (" + disponibilidadeAtual + ")";
     }
     
 

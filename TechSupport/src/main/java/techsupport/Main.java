@@ -1,24 +1,27 @@
 package techsupport;
 
-import techsupport.enums.NivelTecnico;
-import techsupport.enums.Prioridade;
+import techsupport.service.*;
+import techsupport.ui.MenuPrincipal;
+import techsupport.repository.*;
+import techsupport.strategy.*;
 
-import techsupport.model.OrdemServico;
-import techsupport.model.Tecnico;
 
-class Main{
-    public static void main(String[] args){
-        OrdemServico ordem = new OrdemServico("Commitar para o github", Prioridade.BAIXA, 20, 2);
-        Tecnico tecnico = new Tecnico("Bananildo", NivelTecnico.JUNIOR);
+public class Main {
+    public static void main(String[] args) {
+        // 1. Inicializa Repositórios e Estratégias
+        // A fila usa FIFO como padrão; a estratégia é definida em tempo de execução pelo usuário (Opção 4)
+        GerenciadorEstrategias estrategias = new GerenciadorEstrategias();
+        OrdemServicoRepository osRepo = new OrdemServicoRepository(estrategias);
+        TecnicoRepository tecnicoRepo = new TecnicoRepository();
 
+        // 2. Inicializa Serviços com as dependências
+        EscalonadorService escalonador = new EscalonadorService(tecnicoRepo, osRepo);
+        SistemaTechSupport sistema = new SistemaTechSupport(tecnicoRepo, osRepo, escalonador, estrategias);
         
-        System.out.println(ordem.toString());
-
-
-        System.out.println(tecnico.toString());
-        tecnico.ocupar();
-        System.out.println(tecnico.estaDisponivel());
-        tecnico.liberar();
-        System.out.println(tecnico.estaDisponivel());
+        // 3. Inicializa a interface com o serviço central
+        MenuPrincipal menu = new MenuPrincipal(sistema);
+        
+        // 4. Inicia o fluxo principal
+        menu.executar();
     }
 }

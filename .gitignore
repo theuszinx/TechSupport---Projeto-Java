@@ -1,0 +1,25 @@
+# Maven
+target/
+TechSupport/target/
+
+# IDEs (IntelliJ, Eclipse, VS Code)
+.idea/
+TechSupport/.idea/
+*.iml
+TechSupport/*.iml
+bin/
+TechSupport/bin/
+.settings/
+.project
+.classpath
+.vscode/
+
+# Compilação
+*.class
+
+# Logs
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
