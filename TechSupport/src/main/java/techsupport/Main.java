@@ -1,36 +1,27 @@
 package techsupport;
 
+import techsupport.service.*;
+import techsupport.ui.MenuPrincipal;
+import techsupport.repository.*;
 import techsupport.strategy.*;
-import techsupport.model.*;
 
-import techsupport.util.GeradorDadosTeste;
 
-import java.util.ArrayList;
-import java.util.List;
+public class Main {
+    public static void main(String[] args) {
+        // 1. Inicializa Repositórios e Estratégias
+        // A fila usa FIFO como padrão; a estratégia é definida em tempo de execução pelo usuário (Opção 4)
+        GerenciadorEstrategias estrategias = new GerenciadorEstrategias();
+        OrdemServicoRepository osRepo = new OrdemServicoRepository(estrategias);
+        TecnicoRepository tecnicoRepo = new TecnicoRepository();
 
-class Main{
-    public static void main(String[] args){
-        GerenciadorEstrategias fila = new GerenciadorEstrategias(
-                Estrategias.abordagemMista(
-                        List.of(Estrategias.PRIORIDADE, Estrategias.MENOR_TEMPO)
-                )
-                // Prioridade > Menor tempo
-        );
-        try{
-            GeradorDadosTeste.gerarOrdens(fila, 20);
-
-        }catch(ArrayIndexOutOfBoundsException e){
-            System.out.println("ERRO: A quantidade ultrapassou o número de exemplos. Qtd Máxima: " + GeradorDadosTeste.getORDENS().size());
-
-        }
-
-        while(fila.possuiOrdens()){
-            System.out.println(fila.proximaOrdem());
-        }
-
-        List<Tecnico> listaTecnicos = new ArrayList<>();
-        GeradorDadosTeste.gerarTecnicos(listaTecnicos, 10);
-        listaTecnicos.forEach(System.out::println);
-
+        // 2. Inicializa Serviços com as dependências
+        EscalonadorService escalonador = new EscalonadorService(tecnicoRepo, osRepo);
+        SistemaTechSupport sistema = new SistemaTechSupport(tecnicoRepo, osRepo, escalonador, estrategias);
+        
+        // 3. Inicializa a interface com o serviço central
+        MenuPrincipal menu = new MenuPrincipal(sistema);
+        
+        // 4. Inicia o fluxo principal
+        menu.executar();
     }
 }

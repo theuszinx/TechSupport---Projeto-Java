@@ -5,28 +5,26 @@ import techsupport.enums.Complexidade;
 import techsupport.enums.StatusOS;
 
 public class OrdemServico {
-    private static int nextId = 0;
-    private int id;
+    private static int contadorId = 0; // Contador global para IDs únicos
+    private final int id;
 
     private String descricao;
     private Prioridade prioridade;
-    private Complexidade complexidade;
     private int tempoEstimado;
+    private Complexidade complexidade;
     private StatusOS status;
     private int tempoEspera;
 
 
     public OrdemServico(String descricao, Prioridade prioridade, Complexidade complexidade, int tempoEstimado) {
-        // Pré-definidos
-        this.id = ++nextId;
+        this.id = ++contadorId; // Atribui e incrementa o ID global
         this.status = StatusOS.PENDENTE;
         this.tempoEspera = 0;
 
-
         this.descricao = descricao;
         this.prioridade = prioridade;
-        this.complexidade = complexidade;
         this.tempoEstimado = tempoEstimado;
+        this.complexidade = complexidade;
     }
 
 

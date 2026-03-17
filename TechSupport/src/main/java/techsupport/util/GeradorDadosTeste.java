@@ -58,7 +58,7 @@ public final class GeradorDadosTeste {
         return ORDENS;
     }
 
-    public static void gerarOrdens(GerenciadorEstrategias gerenciador, int quantidade){
+    public static List<OrdemServico> gerarOrdens(GerenciadorEstrategias gerenciador, int quantidade){
         // Prevenir ordens repetidas
         if(quantidade > ORDENS.size()){
             throw new ArrayIndexOutOfBoundsException();
@@ -67,9 +67,11 @@ public final class GeradorDadosTeste {
         List<OrdemServico> listaMisturada = new ArrayList<>(ORDENS);
         Collections.shuffle(listaMisturada);
 
-        for(int i = 0; i < quantidade; i++){
-            gerenciador.addOrdem(listaMisturada.get(i));
+        List<OrdemServico> adicionadas = listaMisturada.subList(0, quantidade);
+        for (OrdemServico os : adicionadas) {
+            gerenciador.addOrdem(os);
         }
+        return new ArrayList<>(adicionadas);
     }
 
     public static void gerarTecnicos(List<Tecnico> lista, int quantidade){
