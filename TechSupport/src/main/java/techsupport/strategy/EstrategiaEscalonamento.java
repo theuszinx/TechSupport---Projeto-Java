@@ -4,16 +4,16 @@ import techsupport.model.OrdemServico;
 
 import java.util.*;
 
-public class GerenciadorEstrategias {
+public class EstrategiaEscalonamento {
     private final Queue<OrdemServico> fila;
 
-    // Construtor vazio = Será uma Queue normal (FIFO)
-    public GerenciadorEstrategias() {
+    // Construtor vazio = Será uma Queue normal (LinkedList, FIFO)
+    public EstrategiaEscalonamento() {
         this.fila = new LinkedList<>();
     }
 
     // Construtor com comparator = Será uma PriorityQueue
-    public GerenciadorEstrategias(Comparator<OrdemServico> estrategia) {
+    public EstrategiaEscalonamento(Comparator<OrdemServico> estrategia) {
         this.fila = new PriorityQueue<>(estrategia);
     }
 

@@ -4,7 +4,7 @@ import java.util.*;
 
 import techsupport.enums.*;
 import techsupport.model.*;
-import techsupport.strategy.GerenciadorEstrategias;
+import techsupport.strategy.EstrategiaEscalonamento;
 
 public final class GeradorDadosTeste {
     private static final Random RANDOM = new Random();
@@ -58,7 +58,7 @@ public final class GeradorDadosTeste {
         return ORDENS;
     }
 
-    public static void gerarOrdens(GerenciadorEstrategias gerenciador, int quantidade){
+    public static void gerarOrdens(EstrategiaEscalonamento gerenciador, int quantidade){
         // Prevenir ordens repetidas
         if(quantidade > ORDENS.size()){
             throw new ArrayIndexOutOfBoundsException();

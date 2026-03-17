@@ -10,11 +10,11 @@ import java.util.List;
 
 class Main{
     public static void main(String[] args){
-        GerenciadorEstrategias fila = new GerenciadorEstrategias(
-                Estrategias.abordagemMista(
-                        List.of(Estrategias.PRIORIDADE, Estrategias.MENOR_TEMPO)
+        EstrategiaEscalonamento fila = new MultiEstrategias(
+                List.of(
+                        EstrategiaPrioridade.comparator,
+                        EstrategiaMenorTempo.comparator
                 )
-                // Prioridade > Menor tempo
         );
         try{
             GeradorDadosTeste.gerarOrdens(fila, 20);
