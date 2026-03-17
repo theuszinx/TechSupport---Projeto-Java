@@ -1,30 +1,32 @@
 package techsupport.model;
 
 import techsupport.enums.Prioridade;
+import techsupport.enums.Complexidade;
 import techsupport.enums.StatusOS;
 
 public class OrdemServico {
-    private int id = 0;
+    private static int nextId = 0;
+    private int id;
 
     private String descricao;
     private Prioridade prioridade;
+    private Complexidade complexidade;
     private int tempoEstimado;
-    private int complexidade;
     private StatusOS status;
     private int tempoEspera;
 
 
-    public OrdemServico(String descricao, Prioridade prioridade, int tempoEstimado, int complexidade) {
+    public OrdemServico(String descricao, Prioridade prioridade, Complexidade complexidade, int tempoEstimado) {
         // Pré-definidos
-        this.id++; 
+        this.id = ++nextId;
         this.status = StatusOS.PENDENTE;
         this.tempoEspera = 0;
 
 
         this.descricao = descricao;
         this.prioridade = prioridade;
-        this.tempoEstimado = tempoEstimado;
         this.complexidade = complexidade;
+        this.tempoEstimado = tempoEstimado;
     }
 
 
@@ -38,14 +40,14 @@ public class OrdemServico {
     public Prioridade getPrioridade() {
         return prioridade;
     }
-    public int getTempoEstimado() {
-        return tempoEstimado;
-    }
-    public int getComplexidade() {
+    public Complexidade getComplexidade() {
         return complexidade;
     }
     public StatusOS getStatus() {
         return status;
+    }
+    public int getTempoEstimado() {
+        return tempoEstimado;
     }
     public int getTempoEspera() {
         return tempoEspera;
@@ -60,9 +62,20 @@ public class OrdemServico {
         this.tempoEspera = tempoEspera;
     }
 
+    public String formatarTempoEstimado(int tempo){
+        int horas = (int) tempo / 60;
+        int minutos = (int) tempo % 60;
+
+        // Garantir formatação 00:00
+        return ((horas < 10) ? "0" : "") + horas
+                + ":" +
+                ((minutos < 10) ? "0" : "") + minutos;
+    };
 
     @Override
     public String toString() {
-        return "OS #" + id + " [" + prioridade + "] - " + descricao + " (Status: " + status + ")";
+        return "OS #" + id + " [Prioridade: " + prioridade + "] | [Complexidade: " + complexidade + "] | " +
+                "(Tempo estimado ~ " + formatarTempoEstimado(tempoEstimado) + ")" +
+                "\n" + descricao + " (Status: " + status + ")" + "\n";
     }
 }
