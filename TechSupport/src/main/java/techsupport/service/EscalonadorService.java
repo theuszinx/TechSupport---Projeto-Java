@@ -1,7 +1,5 @@
 package techsupport.service;
 
-import techsupport.enums.Complexidade;
-import techsupport.enums.NivelTecnico;
 import techsupport.enums.StatusOS;
 import techsupport.exception.CompetenciaInvalidaException;
 import techsupport.model.OrdemServico;
@@ -78,25 +76,15 @@ public class EscalonadorService {
     }
 
     /**
-     * Regras de competência:
-     * - JUNIOR  → só atende complexidade BAIXA
-     * - PLENO   → atende BAIXA, MEDIA e ALTA
-     * - SENIOR  → atende qualquer complexidade
+     * Valida se o técnico pode atender a OS com base em sua competência.
+     * cada subclasse de Tecnico define suas regras via podeAtender().
      */
     private void validarCompetencia(Tecnico tecnico, OrdemServico os) {
-        NivelTecnico nivel = tecnico.getNivel();
-        Complexidade complexidade = os.getComplexidade();
-
-        boolean invalido = switch (nivel) {
-            case JUNIOR -> complexidade != Complexidade.BAIXA;
-            case PLENO  -> false; // atende BAIXA, MEDIA e ALTA
-            case SENIOR -> false; // sempre pode
-        };
-
-        if (invalido) {
+        if (!tecnico.podeAtender(os.getComplexidade())) {
             throw new CompetenciaInvalidaException(
-                new Throwable(nivel + " não pode atender OS de complexidade " + complexidade)
+                tecnico.getNivel() + " não pode atender OS de complexidade " + os.getComplexidade()
             );
         }
     }
 }
+

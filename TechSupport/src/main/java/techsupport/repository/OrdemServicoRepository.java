@@ -1,5 +1,6 @@
 package techsupport.repository;
 
+import techsupport.exception.CapacidadeFilaExcedidaException;
 import techsupport.model.OrdemServico;
 import techsupport.strategy.GerenciadorEstrategias;
 
@@ -8,13 +9,17 @@ import java.util.Comparator;
 // Gerencia a fila de ordens de serviço integrada com as estratégias de escalonamento
 public class OrdemServicoRepository {
     private final GerenciadorEstrategias gerenciador;
+    private static final int LIMITE_CAPACIDADE = 100; // Limite para demonstração de exceção checked
 
     public OrdemServicoRepository(GerenciadorEstrategias gerenciador) {
         this.gerenciador = gerenciador;
     }
 
     // Insere uma nova OS na fila, onde será ordenada pela estratégia ativa
-    public void adicionar(OrdemServico os) {
+    public void adicionar(OrdemServico os) throws CapacidadeFilaExcedidaException {
+        if (gerenciador.getFila().size() >= LIMITE_CAPACIDADE) {
+            throw new CapacidadeFilaExcedidaException(LIMITE_CAPACIDADE);
+        }
         gerenciador.addOrdem(os);
     }
 

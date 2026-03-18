@@ -6,14 +6,13 @@ import java.util.Comparator;
 public final class Estrategias {
     private Estrategias() {}
 
-    // ESTRATÉGIA 1: Maior prioridade (Ordem decrescente)
-    public static final Comparator<OrdemServico> PRIORIDADE = (ordem1, ordem2) -> {
-        // Multiplica por -1 para reverter a comparação, tornando-a decrescente (Fica mais legível)
+    public static final Comparator<OrdemServico> PRIORIDADE = ((Comparator<OrdemServico>) (ordem1, ordem2) -> {
+        // Ordenação por valor de prioridade (descendente)
         return -1 * Integer.compare(
             ordem1.getPrioridade().getValorPrioritario(),
             ordem2.getPrioridade().getValorPrioritario()
         );
-    };
+    }).thenComparing(ordem -> ordem.getTempoEstimado()); // Em caso de empate, usa SJF (Menor Tempo)
 
     // ESTRATÉGIA 2: Menor tempo (Ordem crescente)
     public static Comparator<OrdemServico> MENOR_TEMPO = (ordem1, ordem2) -> {

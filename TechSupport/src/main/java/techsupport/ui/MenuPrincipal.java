@@ -10,7 +10,7 @@ public class MenuPrincipal {
         this.sistema = sistema;
     }
 
-    // Loop principal da aplicação
+    // iteração principal da aplicação
     public void executar() {
         int opcao = -1;
         while (opcao != 0) {
@@ -35,14 +35,14 @@ public class MenuPrincipal {
         System.out.println("====================");
     }
 
-    // Direciona a escolha do usuário para a funcionalidade correta
+    // escolha do usuário para a funcionalidade desejada
     private void processarOpcao(int opcao) {
         switch (opcao) {
             case 1 -> sistema.cadastrarTecnico();
             case 2 -> sistema.cadastrarOS();
             case 3 -> sistema.listarDados();
             case 4 -> sistema.escalonarOS();
-            case 5 -> sistema.gerarRelatorio();
+            case 5 -> sistema.gerarDadosTeste();
             case 6 -> sistema.gerarRelatorios();
             case 7 -> sistema.simularPassagemTempo();
             case 0 -> {}

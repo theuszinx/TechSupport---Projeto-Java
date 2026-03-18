@@ -1,7 +1,7 @@
 package techsupport.exception;
 
-public class CompetenciaInvalidaException extends RuntimeException {
-    public CompetenciaInvalidaException(Throwable causa) {
-        super("Competência inválida", causa);
+public class CompetenciaInvalidaException extends TechSupportRuntimeException {
+    public CompetenciaInvalidaException(String mensagem) {
+        super(mensagem);
     }
 }

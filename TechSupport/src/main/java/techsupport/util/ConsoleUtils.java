@@ -9,7 +9,6 @@ public class ConsoleUtils {
     public static void limparTela() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
-                // Não usar inheritIO() pois ele redireciona o stdin e atrapalha o Scanner
                 new ProcessBuilder("cmd", "/c", "cls")
                         .redirectOutput(ProcessBuilder.Redirect.INHERIT)
                         .redirectError(ProcessBuilder.Redirect.INHERIT)

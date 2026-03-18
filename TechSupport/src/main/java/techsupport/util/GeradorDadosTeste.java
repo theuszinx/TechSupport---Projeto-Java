@@ -58,7 +58,7 @@ public final class GeradorDadosTeste {
         return ORDENS;
     }
 
-    public static List<OrdemServico> gerarOrdens(GerenciadorEstrategias gerenciador, int quantidade){
+    public static List<OrdemServico> gerarOrdens(GerenciadorEstrategias gerenciador, int quantidade) throws techsupport.exception.CapacidadeFilaExcedidaException {
         // Prevenir ordens repetidas
         if(quantidade > ORDENS.size()){
             throw new ArrayIndexOutOfBoundsException();
@@ -69,6 +69,12 @@ public final class GeradorDadosTeste {
 
         List<OrdemServico> adicionadas = listaMisturada.subList(0, quantidade);
         for (OrdemServico os : adicionadas) {
+            // Recriamos o repositório temporariamente ou chamamos o método que lança a exceção
+            // No caso, o repositório é quem tem a lógica de limite agora.
+            // Para simplificar, assumimos que o Gerador atende à regra do repositório.
+            if (gerenciador.getFila().size() >= 100) {
+                 throw new techsupport.exception.CapacidadeFilaExcedidaException(100);
+            }
             gerenciador.addOrdem(os);
         }
         return new ArrayList<>(adicionadas);
@@ -78,9 +84,15 @@ public final class GeradorDadosTeste {
         for(int i = 0; i < quantidade; i++){
             String nome = NOMES.get(RANDOM.nextInt(NOMES.size()));
             String sobrenome = SOBRENOMES.get(RANDOM.nextInt(SOBRENOMES.size()));
+            String nomeCompleto = nome + " " + sobrenome;
 
             NivelTecnico nivel = NivelTecnico.nivelRandom();
-            lista.add(new Tecnico(nome + " " + sobrenome, nivel));
+            Tecnico tecnico = switch (nivel) {
+                case JUNIOR -> new TecnicoJunior(nomeCompleto);
+                case PLENO  -> new TecnicoPleno(nomeCompleto);
+                case SENIOR -> new TecnicoSenior(nomeCompleto);
+            };
+            lista.add(tecnico);
         }
     }
 }
